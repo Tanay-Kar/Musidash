@@ -23,20 +23,20 @@ class Window(FramelessWindow):
         self.titleBar.hide()
         self.titleBar: LayoutA = layout
         self.titleBar.setParent(self)
-        self.titleBar.raise_()
+
 
         self.setFixedHeight(120)
         self.setWindowTitle("TuneBar")
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.titleBar.setSongInfo("Feelings", "Shy Martin")
-        
+
         self.timer = QTimer(self)
         self.timer.timeout.connect(
             self.update_metadata
         )  # Trigger worker on each timeout
         self.timer.start(1000)  # Update every 1 second (1000 ms)
-        
-    
+
+
     def update_metadata(self):
         # Create a worker and connect the result signal to the UI update method
         worker = MetadataWorker()
@@ -49,9 +49,6 @@ class Window(FramelessWindow):
         """Update the QLabel values with the fetched metadata"""
         self.titleBar.setSongInfo(metadata.title, metadata.artist)
         self.titleBar.setCoverImage(metadata.cover)
-    
-
-
 
 if __name__ == "__main__":
     # run app

@@ -9,6 +9,9 @@ class LayoutA(TitleBarBase):
     def __init__(self, parent):
         super(LayoutA, self).__init__(parent)
         self.parent = parent
+        self.maxBtn.hide()
+        self.closeBtn.hide()
+        self.minBtn.hide()
         self.setFixedHeight(122)
 
         # Main layout
