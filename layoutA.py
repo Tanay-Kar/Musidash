@@ -3,6 +3,10 @@ from components.titlebar import TitleBar
 from components.songinfo import SongInfoWidget
 from components.playerctrl import PlayerControlWidget
 from qframelesswindow import TitleBarBase
+import os
+import requests
+from urllib.parse import urlparse, unquote
+import hashlib
 
 
 class LayoutA(TitleBarBase):
@@ -67,9 +71,52 @@ class LayoutA(TitleBarBase):
         self.setLayout(QtWidgets.QHBoxLayout(self))
         self.layout().addWidget(self.main_widget)
 
+    def get_coverimage_url(self, url, cache_dir="cache"):
+        try:
+            parsed_url = urlparse(url)
+
+            # If it's already a file URL or local path
+            if parsed_url.scheme == "file" or not parsed_url.scheme:
+                path = unquote(parsed_url.path)
+                if os.name == "nt" and path.startswith("/"):
+                    path = path[1:]
+                return path
+
+            # For http/https URLs, download and cache
+            elif parsed_url.scheme in ["http", "https"]:
+                # Create cache directory if it doesn't exist
+                os.makedirs(cache_dir, exist_ok=True)
+
+                # Create a unique filename using URL hash
+                url_hash = hashlib.md5(url.encode()).hexdigest()
+
+                # Get file extension from URL or default to .jpg
+                ext = os.path.splitext(parsed_url.path)[1]
+                if not ext:
+                    ext = ".jpg"
+
+                cache_path = os.path.join(cache_dir, f"{url_hash}{ext}")
+
+                # If not already cached, download the file
+                if not os.path.exists(cache_path):
+                    response = requests.get(url, stream=True)
+                    response.raise_for_status()  # Raise exception for bad status codes
+
+                    with open(cache_path, "wb") as f:
+                        for chunk in response.iter_content(chunk_size=8192):
+                            f.write(chunk)
+
+                return cache_path
+
+            else:
+                raise ValueError(f"URL scheme '{parsed_url.scheme}' is not supported")
+
+        except Exception as e:
+            print(f"Error processing URL for cover image {url}: {str(e)}")
+            return None
+
     def setCoverImage(self, path):
-        if path.startswith("file://"):
-            path = path[len("file://") :]
+        path = self.get_coverimage_url(path)
 
         pixmap = QtGui.QPixmap(path)
         if not pixmap.isNull():
