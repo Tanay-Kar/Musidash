@@ -1,18 +1,17 @@
 # coding:utf-8
 import sys
 
-from PySide6.QtCore import QRect, QSize, QThread, QTimer, Qt, QThreadPool
-from PySide6.QtGui import QColor, QPixmap, QIcon
-from PySide6.QtWidgets import QApplication, QLabel
+from PySide6.QtCore import QTimer, Qt, QThreadPool
+from PySide6.QtWidgets import QApplication
 
-from qframelesswindow import FramelessWindow, StandardTitleBar
+from qframelesswindow import FramelessWindow
 from layoutA import LayoutA
-import components
+
+# import components
 from worker import MetadataWorker, Metadata
 
 
 class Window(FramelessWindow):
-
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         layout = LayoutA(self)
@@ -24,8 +23,7 @@ class Window(FramelessWindow):
         self.titleBar: LayoutA = layout
         self.titleBar.setParent(self)
 
-
-        self.setFixedHeight(120)
+        self.setFixedHeight(120)  # Set fixed height for the title bar
         self.setWindowTitle("TuneBar")
         self.setAttribute(Qt.WA_TranslucentBackground, True)
         self.titleBar.setSongInfo("Feelings", "Shy Martin")
@@ -35,7 +33,6 @@ class Window(FramelessWindow):
             self.update_metadata
         )  # Trigger worker on each timeout
         self.timer.start(1000)  # Update every 1 second (1000 ms)
-
 
     def update_metadata(self):
         # Create a worker and connect the result signal to the UI update method
@@ -49,6 +46,7 @@ class Window(FramelessWindow):
         """Update the QLabel values with the fetched metadata"""
         self.titleBar.setSongInfo(metadata.title, metadata.artist)
         self.titleBar.setCoverImage(metadata.cover)
+
 
 if __name__ == "__main__":
     # run app

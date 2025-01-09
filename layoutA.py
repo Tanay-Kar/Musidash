@@ -16,6 +16,7 @@ class LayoutA(TitleBarBase):
 
         # Main layout
         # self.setAutoFillBackground(True)
+        self.theme = "dark"
         self.main_widget = QtWidgets.QWidget(self)
         self.main_widget.setStyleSheet("background-color:#020202; border-radius: 8px;")
         main_layout = QtWidgets.QHBoxLayout(self)
@@ -26,22 +27,18 @@ class LayoutA(TitleBarBase):
         self.coverImageLabel.setFixedSize(80, 80)
         self.coverImageLabel.setStyleSheet(
             """
-            background-color: #003333;
+            background-color: #333333;
             border-radius: 4px;
             """
         )  # Placeholder for cover image
 
         # Right-side layout
         right_layout = QtWidgets.QVBoxLayout()
-        right_layout.setContentsMargins(5, 0, 0, 0)
+        right_layout.setContentsMargins(5, 5, 5, 5)
 
         # TitleBar widget
         self.titleBar = TitleBar(self.parent, "Song Title")
         right_layout.addWidget(self.titleBar)
-
-        self.minBtn = self.titleBar.minimizeButton
-        self.maxBtn = self.titleBar.maximizeButton
-        self.closeBtn = self.titleBar.closeButton
 
         # Info and control layout
         info_control_layout = QtWidgets.QHBoxLayout()
@@ -73,26 +70,39 @@ class LayoutA(TitleBarBase):
     def setCoverImage(self, path):
         if path.startswith("file://"):
             path = path[len("file://") :]
+
         pixmap = QtGui.QPixmap(path)
         if not pixmap.isNull():
-            # Scale the pixmap to fit the label while maintaining aspect ratio
+            label_size = self.coverImageLabel.size()
+
+            # Scale the pixmap to cover the label while maintaining aspect ratio
             scaled_pixmap = pixmap.scaled(
-                self.coverImageLabel.size(),
-                QtCore.Qt.KeepAspectRatio,
+                label_size,
+                QtCore.Qt.KeepAspectRatioByExpanding,
                 QtCore.Qt.SmoothTransformation,
             )
 
+            # Calculate the cropping rectangle
+            x_offset = (scaled_pixmap.width() - label_size.width()) // 2
+            y_offset = (scaled_pixmap.height() - label_size.height()) // 2
+            rect = QtCore.QRect(
+                x_offset, y_offset, label_size.width(), label_size.height()
+            )
+
+            # Crop the scaled pixmap to fit the label
+            cropped_pixmap = scaled_pixmap.copy(rect)
+
             # Create a rounded mask
-            mask = QtGui.QPixmap(scaled_pixmap.size())
+            mask = QtGui.QPixmap(cropped_pixmap.size())
             mask.fill(QtCore.Qt.transparent)
             painter = QtGui.QPainter(mask)
             painter.setRenderHint(QtGui.QPainter.Antialiasing)
             path = QtGui.QPainterPath()
             path.addRoundedRect(
-                0, 0, scaled_pixmap.width(), scaled_pixmap.height(), 5, 5
-            )  # Adjust the rounding radius as needed
+                0, 0, cropped_pixmap.width(), cropped_pixmap.height(), 4, 4
+            )
             painter.setClipPath(path)
-            painter.drawPixmap(0, 0, scaled_pixmap)
+            painter.drawPixmap(0, 0, cropped_pixmap)
             painter.end()
 
             # Set the resulting pixmap on the label
@@ -105,7 +115,6 @@ class LayoutA(TitleBarBase):
         self.titleBar.setSource(source)
 
 
-# Example usage
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     mainWidget = LayoutA(QtWidgets.QWidget())

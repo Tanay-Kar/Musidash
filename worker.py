@@ -1,7 +1,5 @@
 import subprocess
-import platform
-from PySide6.QtCore import QThread, Signal, QObject, QTimer, QRunnable, Slot
-from PySide6.QtWidgets import QApplication, QLabel, QVBoxLayout, QWidget
+from PySide6.QtCore import Signal, QObject, QRunnable, Slot
 
 
 # Worker class that will handle fetching the current date and time via CLI
