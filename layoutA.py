@@ -20,7 +20,6 @@ class LayoutA(TitleBarBase):
 
         # Main layout
         # self.setAutoFillBackground(True)
-        self.theme = "dark"
         self.main_widget = QtWidgets.QWidget(self)
         self.main_widget.setStyleSheet("background-color:#020202; border-radius: 8px;")
         main_layout = QtWidgets.QHBoxLayout(self)
@@ -160,6 +159,9 @@ class LayoutA(TitleBarBase):
 
     def setSource(self, source):
         self.titleBar.setSource(source)
+
+    def setPlayPauseStatus(self, status):
+        self.playerControlWidget.setPlayPauseStatus(status)
 
 
 if __name__ == "__main__":

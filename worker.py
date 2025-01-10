@@ -4,7 +4,8 @@ from PySide6.QtCore import Signal, QObject, QRunnable, Slot
 
 # Worker class that will handle fetching the current date and time via CLI
 class Metadata:
-    def __init__(self, title="", artist="", album="", cover="", position=""):
+    def __init__(self, status="", title="", artist="", album="", cover="", position=""):
+        self.status = status
         self.title = title
         self.artist = artist
         self.album = album
@@ -28,6 +29,7 @@ class MetadataWorker(QRunnable):
         """Main task for fetching metadata"""
         try:
             # Fetch metadata using playerctl commands
+            status = self.run_command(["playerctl", "status"])
             title = self.run_command(["playerctl", "metadata", "xesam:title"])
             artist = self.run_command(["playerctl", "metadata", "xesam:artist"])
             album = self.run_command(["playerctl", "metadata", "xesam:album"])
@@ -35,9 +37,7 @@ class MetadataWorker(QRunnable):
             position = self.run_command(["playerctl", "position"])
 
             # Create a Metadata object with the fetched data
-            metadata = Metadata(
-                title=title, artist=artist, album=album, cover=cover, position=position
-            )
+            metadata = Metadata(status, title, artist, album, cover, position)
             # Emit the result to the main thread
             self.signals.result.emit(metadata)
 

@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
     QWidgetAction,
 )
 from components.elide import ElidingLabel
+from themes import theme_manager  # noqa: F401
 
 
 class TitleBar(QtWidgets.QWidget):
@@ -64,14 +65,14 @@ class TitleBar(QtWidgets.QWidget):
         # Window control buttons
         button_size = 20  # Size for square buttons
         self.closeButton = QPushButton()
-        self.closeButton.setIcon(QIcon("components/assets/dark/x.png"))
+        self.closeButton.setIcon(QIcon(":/icons/close.png"))
         self.closeButton.setFixedSize(button_size, button_size)
         self.closeButton.clicked.connect(
             self.parent.close
         )  # Close window when close button is clicked
 
         self.menuButton = QToolButton(self)
-        self.menuButton.setIcon(QIcon("components/assets/dark/dots.png"))
+        self.menuButton.setIcon(QIcon(":/icons/dots.png"))
         self.menuButton.setPopupMode(QToolButton.InstantPopup)
 
         # Create the menu
@@ -83,7 +84,7 @@ class TitleBar(QtWidgets.QWidget):
 
         buttons = []
         for i in range(3):
-            button = QPushButton(f"Btn{i+1}", quick_button_widget)
+            button = QPushButton(f"Btn{i + 1}", quick_button_widget)
             buttons.append(button)
             # Add buttons to the hbox layout
             button_grid.addWidget(button)

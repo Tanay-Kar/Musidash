@@ -9,6 +9,7 @@ from layoutA import LayoutA
 
 # import components
 from worker import MetadataWorker, Metadata
+from themes import theme_manager  # noqa: F401
 
 
 class Window(FramelessWindow):
@@ -46,6 +47,17 @@ class Window(FramelessWindow):
         """Update the QLabel values with the fetched metadata"""
         self.titleBar.setSongInfo(metadata.title, metadata.artist)
         self.titleBar.setCoverImage(metadata.cover)
+        self.titleBar.setPlayPauseStatus(metadata.status)
+
+    def switchTheme(self):
+        if self.current_theme == "dark":
+            self.current_theme = "light"
+            # Unload dark theme and load light theme
+            QApplication.instance().loadStyleSheet("")
+        else:
+            self.current_theme = "dark"
+            # Unload light theme and load dark theme
+            QApplication.instance().loadStyleSheet("")
 
 
 if __name__ == "__main__":
