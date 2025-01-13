@@ -45,6 +45,7 @@ class Window(FramelessWindow):
 
     def display_metadata(self, metadata: Metadata):
         """Update the QLabel values with the fetched metadata"""
+        self.titleBar.setSource(metadata.source)
         self.titleBar.setSongInfo(metadata.title, metadata.artist)
         self.titleBar.setCoverImage(metadata.cover)
         self.titleBar.setPlayPauseStatus(metadata.status)

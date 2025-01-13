@@ -58,7 +58,7 @@ class TitleBar(QtWidgets.QWidget):
         # Title label
         self.titleLabel = ElidingLabel(title)
         self.titleLabel.setAlignment(QtCore.Qt.AlignLeft)
-        self.titleLabel.setFont(QtGui.QFont("Roboto", 7, QtGui.QFont.Bold))
+        self.titleLabel.setFont(QtGui.QFont("Roboto", 8))
         # Add title label to layout and make it expand
         layout.addWidget(self.titleLabel, 1)
 
