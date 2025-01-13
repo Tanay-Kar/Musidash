@@ -3,6 +3,7 @@ import sys
 
 from PySide6.QtCore import QTimer, Qt, QThreadPool
 from PySide6.QtWidgets import QApplication
+from PySide6 import QtGui
 
 from qframelesswindow import FramelessWindow
 from layoutA import LayoutA
@@ -25,9 +26,11 @@ class Window(FramelessWindow):
         self.titleBar.setParent(self)
 
         self.setFixedHeight(120)  # Set fixed height for the title bar
-        self.setWindowTitle("TuneBar")
+        self.setWindowTitle("Musidash")
         self.setAttribute(Qt.WA_TranslucentBackground, True)
-        self.titleBar.setSongInfo("Feelings", "Shy Martin")
+
+        self.titleBar.setSongInfo("Title", "Author")
+        self.titleBar.setSource("Player")
 
         self.timer = QTimer(self)
         self.timer.timeout.connect(

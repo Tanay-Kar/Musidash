@@ -15,12 +15,12 @@ class SongInfoWidget(QtWidgets.QWidget):
         # Title label
         self.titleLabel = ElidingLabel(title)
         self.titleLabel.setAlignment(QtCore.Qt.AlignLeft)
-        self.titleLabel.setFont(QtGui.QFont("Roboto", 12, QtGui.QFont.Bold))
+        self.titleLabel.setFont(QtGui.QFont("Poppins", 12, 700))
 
         # Author label
         self.authorLabel = ElidingLabel(author)
         self.authorLabel.setAlignment(QtCore.Qt.AlignLeft)
-        self.authorLabel.setFont(QtGui.QFont("Roboto", 8, QtGui.QFont.Bold))
+        self.authorLabel.setFont(QtGui.QFont("Poppins", 8, 900))
 
         # Add labels to layout
         layout.addWidget(self.titleLabel)
