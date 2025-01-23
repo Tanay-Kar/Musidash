@@ -4,7 +4,9 @@ from PySide6.QtCore import Signal, QObject, QRunnable, Slot
 
 # Worker class that will handle fetching the current date and time via CLI
 class Metadata:
-    def __init__(self, status="", title="", artist="", album="", cover="", position="", source=""):
+    def __init__(
+        self, status="", title="", artist="", album="", cover="", position="", source=""
+    ):
         self.status = status
         self.title = title
         self.artist = artist
@@ -36,7 +38,13 @@ class MetadataWorker(QRunnable):
             album = self.run_command(["playerctl", "metadata", "xesam:album"])
             cover = self.run_command(["playerctl", "metadata", "mpris:artUrl"])
             position = self.run_command(["playerctl", "position"])
-            source = self.run_command(["sh", "-c", "busctl --user list | grep -f <(playerctl -l) | awk '{print $3}'"])
+            source = self.run_command(
+                [
+                    "sh",
+                    "-c",
+                    "busctl --user list | grep -f <(playerctl -l) | awk '{print $3}'",
+                ]
+            )
 
             # Create a Metadata object with the fetched data
             metadata = Metadata(status, title, artist, album, cover, position, source)
@@ -57,3 +65,16 @@ class MetadataWorker(QRunnable):
             return output.decode("utf-8").strip()  # Clean up the output
         except Exception as e:
             return f"Error: {str(e)}"
+
+
+class ActionsWorker:
+    def __init__(self): ...
+
+    def playpause(self):
+        subprocess.run(["playerctl", "play-pause"])
+
+    def next(self):
+        subprocess.run(["playerctl", "next"])
+
+    def previous(self):
+        subprocess.run(["playerctl", "previous"])

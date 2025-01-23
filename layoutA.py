@@ -70,6 +70,18 @@ class LayoutA(TitleBarBase):
         self.setLayout(QtWidgets.QHBoxLayout(self))
         self.layout().addWidget(self.main_widget)
 
+    def assign_actions(self, action_worker):
+        self.action_worker = action_worker
+        self.playerControlWidget.playButton.clicked.connect(
+            lambda: self.action_worker.playpause()
+        )
+        self.playerControlWidget.nextButton.clicked.connect(
+            lambda: self.action_worker.next()
+        )
+        self.playerControlWidget.prevButton.clicked.connect(
+            lambda: self.action_worker.previous()
+        )
+
     def get_coverimage_url(self, url, cache_dir="cache"):
         try:
             parsed_url = urlparse(url)

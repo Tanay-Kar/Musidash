@@ -9,7 +9,7 @@ from qframelesswindow import FramelessWindow
 from layoutA import LayoutA
 
 # import components
-from worker import MetadataWorker, Metadata
+from worker import MetadataWorker, Metadata, ActionsWorker
 from themes import theme_manager  # noqa: F401
 
 
@@ -19,11 +19,13 @@ class Window(FramelessWindow):
         layout = LayoutA(self)
 
         self.thread_pool = QThreadPool()
+        self.action_worker = ActionsWorker()
 
         self.titleBar.deleteLater()
         self.titleBar.hide()
         self.titleBar: LayoutA = layout
         self.titleBar.setParent(self)
+        self.titleBar.assign_actions(self.action_worker)
 
         self.setFixedHeight(120)  # Set fixed height for the title bar
         self.setWindowTitle("Musidash")
