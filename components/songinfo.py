@@ -13,9 +13,9 @@ class SongInfoWidget(QtWidgets.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         # Title label
-        self.titleLabel = ElidingLabel(title)
-        self.titleLabel.setAlignment(QtCore.Qt.AlignLeft)
-        self.titleLabel.setFont(QtGui.QFont("Poppins", 12, 700))
+        self.title_label = ElidingLabel(title)
+        self.title_label.setAlignment(QtCore.Qt.AlignLeft)
+        self.title_label.setFont(QtGui.QFont("Poppins", 12, 700))
 
         # Author label
         self.authorLabel = ElidingLabel(author)
@@ -23,14 +23,14 @@ class SongInfoWidget(QtWidgets.QWidget):
         self.authorLabel.setFont(QtGui.QFont("Poppins", 8, 900))
 
         # Add labels to layout
-        layout.addWidget(self.titleLabel)
+        layout.addWidget(self.title_label)
         layout.addWidget(self.authorLabel)
 
         # Set layout
         self.setLayout(layout)
 
     def setInfo(self, title, author):
-        self.titleLabel.setText(title)
+        self.title_label.setText(title)
         self.authorLabel.setText(author)
 
 

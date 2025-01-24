@@ -23,19 +23,19 @@ class ProgressBarWidget(QtWidgets.QWidget):
         label_layout.setContentsMargins(0, 0, 0, 0)
 
         # Current duration label
-        self.currentDurationLabel = QtWidgets.QLabel("0:00")
-        self.currentDurationLabel.setFont(QtGui.QFont("Roboto", 9, QtGui.QFont.Bold))
-        self.currentDurationLabel.setAlignment(QtCore.Qt.AlignLeft)
+        self.current_duration = QtWidgets.QLabel("0:00")
+        self.current_duration.setFont(QtGui.QFont("Roboto", 9, QtGui.QFont.Bold))
+        self.current_duration.setAlignment(QtCore.Qt.AlignLeft)
 
         # Total duration label
-        self.totalDurationLabel = QtWidgets.QLabel("3:00")
-        self.totalDurationLabel.setFont(QtGui.QFont("Roboto", 9, QtGui.QFont.Bold))
-        self.totalDurationLabel.setAlignment(QtCore.Qt.AlignRight)
+        self.total_duration = QtWidgets.QLabel("3:00")
+        self.total_duration.setFont(QtGui.QFont("Roboto", 9, QtGui.QFont.Bold))
+        self.total_duration.setAlignment(QtCore.Qt.AlignRight)
 
         # Add labels and stretch to label layout
-        label_layout.addWidget(self.currentDurationLabel)
+        label_layout.addWidget(self.current_duration)
         label_layout.addStretch()
-        label_layout.addWidget(self.totalDurationLabel)
+        label_layout.addWidget(self.total_duration)
 
         # Add label layout to main layout
         main_layout.addLayout(label_layout)

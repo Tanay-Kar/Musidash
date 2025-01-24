@@ -26,9 +26,9 @@ class LayoutA(TitleBarBase):
         # main_layout.setContentsMargins(10, 10, 10, 10)
 
         # Cover image label
-        self.coverImageLabel = QtWidgets.QLabel()
-        self.coverImageLabel.setFixedSize(80, 80)
-        self.coverImageLabel.setStyleSheet(
+        self.cover_image = QtWidgets.QLabel()
+        self.cover_image.setFixedSize(80, 80)
+        self.cover_image.setStyleSheet(
             """
             background-color: #333333;
             border-radius: 4px;
@@ -40,20 +40,20 @@ class LayoutA(TitleBarBase):
         right_layout.setContentsMargins(5, 5, 5, 5)
 
         # TitleBar widget
-        self.titleBar = TitleBar(self.parent, "Song Title")
-        right_layout.addWidget(self.titleBar)
+        self.main_layout = TitleBar(self.parent, "Song Title")
+        right_layout.addWidget(self.main_layout)
 
         # Info and control layout
         info_control_layout = QtWidgets.QHBoxLayout()
         info_control_layout.setContentsMargins(0, 0, 0, 0)
 
         # SongInfoWidget
-        self.songInfoWidget = SongInfoWidget("Song Title", "Author Name")
-        info_control_layout.addWidget(self.songInfoWidget)
+        self.song_info = SongInfoWidget("Song Title", "Author Name")
+        info_control_layout.addWidget(self.song_info)
 
         # PlayerControlWidget
-        self.playerControlWidget = PlayerControlWidget()
-        info_control_layout.addWidget(self.playerControlWidget)
+        self.player_control = PlayerControlWidget()
+        info_control_layout.addWidget(self.player_control)
 
         right_layout.addStretch()
 
@@ -61,7 +61,7 @@ class LayoutA(TitleBarBase):
         right_layout.addLayout(info_control_layout)
 
         # Add cover image and right-side layout to main layout
-        main_layout.addWidget(self.coverImageLabel)
+        main_layout.addWidget(self.cover_image)
         main_layout.addLayout(right_layout)
 
         # Set main layout
@@ -72,13 +72,13 @@ class LayoutA(TitleBarBase):
 
     def assign_actions(self, action_worker):
         self.action_worker = action_worker
-        self.playerControlWidget.playButton.clicked.connect(
+        self.player_control.play_button.clicked.connect(
             lambda: self.action_worker.playpause()
         )
-        self.playerControlWidget.nextButton.clicked.connect(
+        self.player_control.next_button.clicked.connect(
             lambda: self.action_worker.next()
         )
-        self.playerControlWidget.prevButton.clicked.connect(
+        self.player_control.prev_button.clicked.connect(
             lambda: self.action_worker.previous()
         )
 
@@ -131,7 +131,7 @@ class LayoutA(TitleBarBase):
 
         pixmap = QtGui.QPixmap(path)
         if not pixmap.isNull():
-            label_size = self.coverImageLabel.size()
+            label_size = self.cover_image.size()
 
             # Scale the pixmap to cover the label while maintaining aspect ratio
             scaled_pixmap = pixmap.scaled(
@@ -164,16 +164,16 @@ class LayoutA(TitleBarBase):
             painter.end()
 
             # Set the resulting pixmap on the label
-            self.coverImageLabel.setPixmap(mask)
+            self.cover_image.setPixmap(mask)
 
     def setSongInfo(self, title, author):
-        self.songInfoWidget.setInfo(title, author)
+        self.song_info.setInfo(title, author)
 
     def setSource(self, source):
-        self.titleBar.setSource(source)
+        self.main_layout.setSource(source)
 
     def setPlayPauseStatus(self, status):
-        self.playerControlWidget.setPlayPauseStatus(status)
+        self.player_control.setPlayPauseStatus(status)
 
 
 if __name__ == "__main__":

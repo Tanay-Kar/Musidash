@@ -56,24 +56,24 @@ class TitleBar(QtWidgets.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
 
         # Title label
-        self.titleLabel = ElidingLabel(title)
-        self.titleLabel.setAlignment(QtCore.Qt.AlignLeft)
-        self.titleLabel.setFont(QtGui.QFont("Poppins", 8, 1000))
+        self.title_label = ElidingLabel(title)
+        self.title_label.setAlignment(QtCore.Qt.AlignLeft)
+        self.title_label.setFont(QtGui.QFont("Poppins", 8, 1000))
         # Add title label to layout and make it expand
-        layout.addWidget(self.titleLabel, 1)
+        layout.addWidget(self.title_label, 1)
 
         # Window control buttons
         button_size = 20  # Size for square buttons
-        self.closeButton = QPushButton()
-        self.closeButton.setIcon(QIcon(":/icons/close.png"))
-        self.closeButton.setFixedSize(button_size, button_size)
-        self.closeButton.clicked.connect(
+        self.close_button = QPushButton()
+        self.close_button.setIcon(QIcon(":/icons/close.png"))
+        self.close_button.setFixedSize(button_size, button_size)
+        self.close_button.clicked.connect(
             self.parent.close
         )  # Close window when close button is clicked
 
-        self.menuButton = QToolButton(self)
-        self.menuButton.setIcon(QIcon(":/icons/dots.png"))
-        self.menuButton.setPopupMode(QToolButton.InstantPopup)
+        self.menu_button = QToolButton(self)
+        self.menu_button.setIcon(QIcon(":/icons/dots.png"))
+        self.menu_button.setPopupMode(QToolButton.InstantPopup)
 
         # Create the menu
         self.menu = QMenu(self)
@@ -117,22 +117,22 @@ class TitleBar(QtWidgets.QWidget):
         self.menu.addAction(layout_action)
 
         # Associate the menu with the tool button
-        self.menuButton.setMenu(self.menu)
+        self.menu_button.setMenu(self.menu)
 
         # Add buttons to layout
-        layout.addWidget(self.menuButton)
-        layout.addWidget(self.closeButton)
+        layout.addWidget(self.menu_button)
+        layout.addWidget(self.close_button)
 
         # Set layout
         self.setLayout(layout)
 
     def setSource(self, source):
-        self.titleLabel.setText(source)
+        self.title_label.setText(source)
 
 
 # Example usage
 if __name__ == "__main__":
     app = QApplication([])
-    titleBar = TitleBar("My Application")
-    titleBar.show()
+    main_layout = TitleBar("My Application")
+    main_layout.show()
     app.exec()
