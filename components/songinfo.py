@@ -7,7 +7,7 @@ class SongInfoWidget(QtWidgets.QWidget):
         super(SongInfoWidget, self).__init__()
 
         self.setFixedHeight(50)  # Set fixed height for the widget
-
+        # self.setStyleSheet("color: #333333;")
         # Create layout
         layout = QtWidgets.QVBoxLayout(self)
         layout.setContentsMargins(0, 0, 0, 0)

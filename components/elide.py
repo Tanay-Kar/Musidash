@@ -47,6 +47,7 @@ class ElidingLabel(QtWidgets.QLabel):
         self.setSizePolicy(
             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Preferred
         )
+        self.alignment = QtCore.Qt.AlignmentFlag.AlignTop
         self.setText(text)
 
     def setText(self, text):

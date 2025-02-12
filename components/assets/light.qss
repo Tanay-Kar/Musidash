@@ -1,0 +1,71 @@
+#background-widget{
+    background-color: #ffffff;
+    border-radius: 8px;
+}
+
+#cover-image{
+    background-color: #e6e6e6;
+    border-radius: 4px;
+}
+
+#player-control QPushButton{
+    background-color: transparent;
+    border: none;
+    color: #666666;
+    border-radius: 4px;
+}
+
+#player-control QPushButton:hover{
+    background-color: #f2f2f2;
+}
+
+#player-control QPushButton:pressed{
+    background-color: #e6e6e6;
+}
+
+ElidingLabel{
+    color: #444;
+}
+
+#title-bar QPushButton {
+    padding: 8px;
+    border-radius: 4px;
+    color: #444;
+    text-align: center;
+}
+
+#title-bar QPushButton:hover {
+    background-color: #dedede;
+}
+
+#title-bar QPushButton:pressed {
+    background-color: #d9d9d9;
+}
+
+#title-bar QToolButton {
+    border-radius: 4px;
+    color: #444;
+    text-align: center;
+}
+
+#title-bar QToolButton:hover {
+    background-color: #dedede;
+}
+
+#title-bar QToolButton:pressed {
+    background-color: #dadada;
+}
+
+#title-bar QToolButton::menu-indicator {
+    image: none;
+}
+
+#menu {
+    background-color: #efefef;
+}
+
+#quick-button {
+    background-color: #dddddd;
+    padding: 4px;
+    border-radius: 4px;
+}

@@ -3,7 +3,7 @@ import importlib  # noqa: F401
 
 class ThemeManager:
     def __init__(self):
-        self.current_theme = "dark"
+        self.current_theme = "dark"  # default theme
         self.load_theme_resources()
 
     def load_theme_resources(self):

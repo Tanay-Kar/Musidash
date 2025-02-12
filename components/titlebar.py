@@ -11,7 +11,6 @@ from PySide6.QtWidgets import (
     QWidgetAction,
 )
 from components.elide import ElidingLabel
-from themes import theme_manager  # noqa: F401
 
 
 class TitleBar(QtWidgets.QWidget):
@@ -20,35 +19,6 @@ class TitleBar(QtWidgets.QWidget):
 
         self.setFixedHeight(20)  # Set fixed height for the title bar
 
-        self.setStyleSheet(
-            """
-            QPushButton {
-                background-color: #020202;
-                padding: 8px;
-                border: none;
-                color: #999;
-                text-align: center;
-            }
-
-            QPushButton:hover {
-                background-color: #222;
-            }
-
-            QToolButton {
-                background-color: transparent;
-                border: none;
-                color: #999;
-                text-align: center;
-            }
-
-            QToolButton:hover {
-                background-color: #222;
-            }
-            QToolButton::menu-indicator {
-                image: none;
-            }
-            """
-        )
         self.parent = parent
 
         # Create layout
@@ -82,10 +52,12 @@ class TitleBar(QtWidgets.QWidget):
         quick_button_widget = QWidget(self)
         button_grid = QHBoxLayout(quick_button_widget)
 
-        buttons = []
         for i in range(3):
             button = QPushButton(f"Btn{i + 1}", quick_button_widget)
-            buttons.append(button)
+            button.setObjectName("quick-button")
+            button.clicked.connect(
+                lambda _, num=i + 1: self.parent.handle_menu_click("quick", num)
+            )
             # Add buttons to the hbox layout
             button_grid.addWidget(button)
 
@@ -100,12 +72,14 @@ class TitleBar(QtWidgets.QWidget):
         layout_button_widget = QWidget(self)
         button_grid = QGridLayout(layout_button_widget)
 
-        # Create 4 buttons for the 2x2 grid
-        buttons = []
         layout_labels = ["Minimal", "Expanded", "Square", "Micro"]
         for i in range(4):
             button = QPushButton(layout_labels[i], layout_button_widget)
-            buttons.append(button)
+            button.setObjectName("layout-button")
+
+            button.clicked.connect(
+                lambda _, num=i + 1: self.parent.handle_menu_click("layout", num)
+            )
             # Add buttons to the grid layout
             button_grid.addWidget(button, i // 2, i % 2)
 
@@ -114,7 +88,9 @@ class TitleBar(QtWidgets.QWidget):
         layout_action.setDefaultWidget(layout_button_widget)
 
         # Add the QWidgetAction to the menu
+        self.menu.addSeparator()
         self.menu.addAction(layout_action)
+        self.menu.setObjectName("menu")
 
         # Associate the menu with the tool button
         self.menu_button.setMenu(self.menu)

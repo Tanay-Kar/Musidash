@@ -1,26 +1,11 @@
 from PySide6 import QtWidgets
 from PySide6.QtGui import QIcon
-from themes import theme_manager  # noqa: F401
+# from themes import theme_manager  # noqa: F401
 
 
 class PlayerControlWidget(QtWidgets.QWidget):
     def __init__(self):
         super(PlayerControlWidget, self).__init__()
-
-        self.setStyleSheet(
-            """
-            QPushButton {
-                background-color: transparent;
-                border: none;
-                color: #999;
-                text-align: center;
-            }
-
-            QPushButton:hover {
-                color: #EEE;
-            }
-            """
-        )
 
         # Create layout
         layout = QtWidgets.QHBoxLayout(self)

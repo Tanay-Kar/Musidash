@@ -16,59 +16,58 @@ class LayoutA(TitleBarBase):
         self.maxBtn.hide()
         self.closeBtn.hide()
         self.minBtn.hide()
-        self.setFixedHeight(122)
+        self.setFixedHeight(120)
 
         # Main layout
-        # self.setAutoFillBackground(True)
-        self.main_widget = QtWidgets.QWidget(self)
-        self.main_widget.setStyleSheet("background-color:#020202; border-radius: 8px;")
-        main_layout = QtWidgets.QHBoxLayout(self)
-        # main_layout.setContentsMargins(10, 10, 10, 10)
+        self.background_widget = QtWidgets.QWidget(self)
+        self.background_widget.setObjectName("background-widget")
+        self.main_layout = QtWidgets.QHBoxLayout(self)
+        self.main_layout.setContentsMargins(
+            10, 10, 10, 10
+        )  # Required ... Does horrible things when turned off
 
         # Cover image label
         self.cover_image = QtWidgets.QLabel()
         self.cover_image.setFixedSize(80, 80)
-        self.cover_image.setStyleSheet(
-            """
-            background-color: #333333;
-            border-radius: 4px;
-            """
-        )  # Placeholder for cover image
+        self.cover_image.setObjectName("cover-image")
 
         # Right-side layout
-        right_layout = QtWidgets.QVBoxLayout()
-        right_layout.setContentsMargins(5, 5, 5, 5)
+        self.right_layout = QtWidgets.QVBoxLayout()
+        self.right_layout.setContentsMargins(5, 5, 5, 5)
 
         # TitleBar widget
-        self.main_layout = TitleBar(self.parent, "Song Title")
-        right_layout.addWidget(self.main_layout)
+        self.title_bar = TitleBar(self.parent, "Song Title")
+        self.title_bar.setObjectName("title-bar")
+        self.right_layout.addWidget(self.title_bar)
 
         # Info and control layout
-        info_control_layout = QtWidgets.QHBoxLayout()
-        info_control_layout.setContentsMargins(0, 0, 0, 0)
+        self.info_control_layout = QtWidgets.QHBoxLayout()
+        self.info_control_layout.setContentsMargins(0, 0, 0, 0)
 
         # SongInfoWidget
         self.song_info = SongInfoWidget("Song Title", "Author Name")
-        info_control_layout.addWidget(self.song_info)
+        self.song_info.setObjectName("song-info")
+        self.info_control_layout.addWidget(self.song_info)
 
         # PlayerControlWidget
         self.player_control = PlayerControlWidget()
-        info_control_layout.addWidget(self.player_control)
+        self.player_control.setObjectName("player-control")
+        self.info_control_layout.addWidget(self.player_control)
 
-        right_layout.addStretch()
+        self.right_layout.addStretch()
 
         # Add info and control layout to right-side layout
-        right_layout.addLayout(info_control_layout)
+        self.right_layout.addLayout(self.info_control_layout)
 
         # Add cover image and right-side layout to main layout
-        main_layout.addWidget(self.cover_image)
-        main_layout.addLayout(right_layout)
+        self.main_layout.addWidget(self.cover_image)
+        self.main_layout.addLayout(self.right_layout)
 
         # Set main layout
-        # self.setLayout(main_layout)
-        self.main_widget.setLayout(main_layout)
+        # self.setLayout(self.main_layout)
+        self.background_widget.setLayout(self.main_layout)
         self.setLayout(QtWidgets.QHBoxLayout(self))
-        self.layout().addWidget(self.main_widget)
+        self.layout().addWidget(self.background_widget)
 
     def assign_actions(self, action_worker):
         self.action_worker = action_worker
@@ -170,7 +169,7 @@ class LayoutA(TitleBarBase):
         self.song_info.setInfo(title, author)
 
     def setSource(self, source):
-        self.main_layout.setSource(source)
+        self.title_bar.setSource(source)
 
     def setPlayPauseStatus(self, status):
         self.player_control.setPlayPauseStatus(status)
